@@ -183,3 +183,8 @@ app {
         display: block;
     }
 }
+
+.weather-summary{
+    height: 25px;
+    width: 25px;
+}

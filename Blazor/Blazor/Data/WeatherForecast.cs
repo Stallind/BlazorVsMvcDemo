@@ -5,6 +5,7 @@ namespace Blazor.Data
     public class WeatherForecast
     {
         public DateTime Date { get; set; }
+        public string City { get; set; }
 
         public int TemperatureC { get; set; }
 
