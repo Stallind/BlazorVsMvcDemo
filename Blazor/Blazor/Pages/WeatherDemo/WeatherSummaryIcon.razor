@@ -1,0 +1,17 @@
+﻿@switch (Summary)
+{
+    case "Scorching":
+        <IconScorching />
+        break;
+    case "Freezing":
+        <IconFreezing />
+        break;
+    case "Hot":
+        <IconHot />
+        break;
+}
+
+@code {
+    [Parameter]
+    public string Summary { get; set; }
+}

@@ -1,0 +1,33 @@
+﻿@page "/weatherdemo"
+
+@using Blazor.Data
+@inject WeatherForecastService ForecastService
+
+<h1>Weather forecast</h1>
+
+<p>Showing weather forecast for @_numberOfDays days...</p>
+
+<button class="btn btn-primary mb-3" @onclick="ShowTenDays">Show 10 days</button>
+
+<WeatherTable Items="_forecasts" />
+
+@code {
+    private WeatherForecast[] _forecasts;
+    private int _numberOfDays = 5;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await FetchWeatherForecasts();
+    }
+
+    private async Task ShowTenDays()
+    {
+        _numberOfDays = 10;
+        await FetchWeatherForecasts();
+    }
+
+    private async Task FetchWeatherForecasts()
+    {
+        _forecasts = await ForecastService.GetForecastAsync(DateTime.Now, _numberOfDays);
+    }
+}
