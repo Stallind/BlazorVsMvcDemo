@@ -1,0 +1,26 @@
+﻿<span>@currentTime</span>
+ 
+@code {
+    private int currentTime;
+
+    private System.Threading.Timer timer;
+
+    protected override void OnInitialized()
+    {
+    // Set up the timer to update the clock every second
+        timer = new System.Threading.Timer(UpdateClock, null, 0, 1000);
+    }
+
+    private void UpdateClock(object state)
+    {
+    // Update the current time
+        currentTime += 1;
+        InvokeAsync(StateHasChanged); // Notify Blazor that the state has changed
+    }
+
+    // Clean up the timer when the component is disposed
+    public void Dispose()
+    {
+        timer.Dispose();
+    }
+}

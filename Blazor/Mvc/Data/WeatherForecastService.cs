@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Blazor.Data
+namespace Mvc.Data
 {
     public class WeatherForecastService
     {
@@ -24,28 +19,6 @@ namespace Blazor.Data
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]
             }).ToArray());
-        }
-
-        public string FetchRandomCity()
-        {
-            List<string> cities = new List<string>
-            {
-                "New York",
-                "Los Angeles",
-                "Chicago",
-                "Houston",
-                "Phoenix",
-                "Philadelphia",
-                "San Antonio",
-                "San Diego",
-                "Dallas",
-                "San Jose"
-            };
-
-            Random random = new Random();
-            int randomIndex = random.Next(cities.Count);
-
-            return cities[randomIndex];
         }
     }
 }
