@@ -1,0 +1,92 @@
+﻿@model WeatherDemoViewModel
+
+<h1>Weather forecast</h1>
+
+<div class="border border-1 border-dark p-3 my-3 bg-light w-25">
+    Du befinner dig i @Model.City
+</div>
+
+<div class="border border-1 border-dark p-3 my-3 bg-light w-25">
+    Du har varit på sidan i <span id="timer">0</span> sekunder
+</div>
+
+<a href="@Url.Action("Index", "WeatherDemo", new { numberOfDays = 10 })" class="btn btn-primary mb-3">Show 10 days</a>
+
+
+<div id="forecast-list" class="border border-1 border-dark p-1">
+    <p>Showing weather forecast for <span id="number-of-days">@Model.Forecasts.Length</span> days...</p>
+
+   @* <table class="table">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Temp. (C)</th>
+            <th>Summary</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Forecasts)
+        {
+            <tr>
+                <td>@item.Date.ToShortDateString()</td>
+                <td>@item.TemperatureC</td>
+                <td>
+                    @item.Summary
+                    @switch (@item.Summary)
+                    {
+                        case "Scorching":
+                            <i>🔥</i>
+                            break;
+                        case "Freezing":
+                            <i>🥶</i>
+                            break;
+                        case "Hot":
+                            <i>🌶️</i>
+                            break;
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>*@
+    
+    <partial name="_WeatherTable" model="Model.Forecasts" />
+</div>
+
+@section Scripts
+{
+    <script>
+        let seconds = 0;
+        
+        const timerSpan = document.getElementById('timer');
+        const timerInterval = setInterval(() => {
+            seconds++;
+            timerSpan.textContent = seconds;
+        }, 1000);
+    </script>
+
+    <script>
+        const listElement = document.getElementById('forecast-list');
+        document.getElementById('show-ten-days').addEventListener('click', showTenDays);
+        
+        function showTenDays(){
+            fetch('@Url.Action("Index", "WeatherDemo", new { numberOfDays = 10 })')
+                .then(function (response) {
+                    
+                    if (!response.ok) {
+                        listElement.innerHTML =
+                            `<h2>ERROR</h2>`;
+                    }
+                    
+                    return response.text();
+
+                }).then(function (html) {
+
+                    listElement.innerHTML = html;
+
+                }
+            );
+        }
+    
+    </script>
+}

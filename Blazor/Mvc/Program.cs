@@ -1,7 +1,10 @@
+using Mvc.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<WeatherForecastService>();
 
 var app = builder.Build();
 

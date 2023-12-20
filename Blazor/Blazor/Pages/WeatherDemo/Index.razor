@@ -5,29 +5,45 @@
 
 <h1>Weather forecast</h1>
 
-<p>Showing weather forecast for @_numberOfDays days...</p>
+<div class="border border-1 border-dark p-3 my-3 bg-light w-25">
+    Du befinner dig i @_city
+</div>
+
+<div class="border border-1 border-dark p-3 my-3 bg-light w-25">
+    Du har varit på sidan i <Timer /> sekunder
+</div>
 
 <button class="btn btn-primary mb-3" @onclick="ShowTenDays">Show 10 days</button>
 
-<WeatherTable Items="_forecasts" />
+<div class="border border-1 border-dark p-1">
+    @if (_numberOfDaysFetched > 0)
+    {
+        <p>Showing weather forecast for @_numberOfDaysFetched days...</p>
+    }
+
+    <WeatherTable Items="_forecasts"/>
+</div>
 
 @code {
     private WeatherForecast[] _forecasts;
-    private int _numberOfDays = 5;
+    private int _numberOfDaysFetched;
+    private string _city;
 
     protected override async Task OnInitializedAsync()
     {
-        await FetchWeatherForecasts();
+        _city = ForecastService.FetchRandomCity();
+        await FetchWeatherForecasts(5);
     }
 
     private async Task ShowTenDays()
     {
-        _numberOfDays = 10;
-        await FetchWeatherForecasts();
+        await FetchWeatherForecasts(10);
     }
 
-    private async Task FetchWeatherForecasts()
+    private async Task FetchWeatherForecasts(int numberOfDays)
     {
-        _forecasts = await ForecastService.GetForecastAsync(DateTime.Now, _numberOfDays);
+        _forecasts = null;
+        _forecasts = await ForecastService.GetForecastAsync(DateTime.Now, numberOfDays);
+        _numberOfDaysFetched = numberOfDays;
     }
 }
